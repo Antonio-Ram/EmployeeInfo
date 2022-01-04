@@ -1,0 +1,27 @@
+{
+  "name": "employeeinfo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antonio-Ram/EmployeeInfo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Antonio-Ram/EmployeeInfo/issues"
+  },
+  "homepage": "https://github.com/Antonio-Ram/EmployeeInfo#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "jest": "^27.4.5"
+  }
+}

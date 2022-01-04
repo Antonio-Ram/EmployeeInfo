@@ -1,7 +1,17 @@
+const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
-//Default repsonse for any other request (Not Found)
-app.use((req, res) => {
-    res.status(404).end;
-});
+//Connect to database
+const db = mysql.createConnection(
+    {
+        host:'localhost',
+        user: 'root',
+        password: 'Theprotigy15!',
+        database: 'tracker'
+    },
+    console.log('Connected to the tracker database.')
+);
 
+db.query(`SELECT * FROM departments`, (err, rows) => {
+    console.log(rows);
+});

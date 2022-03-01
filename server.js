@@ -61,6 +61,26 @@ app.post('/api/departments', ({ body }, res) => {
 
 });
 
+//View all roles
+app.get('/api/roles', (req, res) => {
+    const sql = `SELECT roles.*, departments.name
+    AS department_name
+    FROM departments
+    LEFT JOIN roles
+    ON roles.department_id = departments.id`;
+
+    db.query(sql, (err, rows) => {
+        if (err) {
+            res.status(500).json( {error: err.message });
+            return;  
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
+
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {

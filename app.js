@@ -1,6 +1,16 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
+inquirer
+    .prompt([
+        {
+            type: "list",
+            name: "Start",
+            message: "What would you like to do?",
+            choices: ["View all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee"]
+        }
+    ]);
+    
 //Connect to database
 const db = mysql.createConnection(
     {
@@ -12,36 +22,21 @@ const db = mysql.createConnection(
     console.log('Connected to the tracker database.')
 );
 
-/*//GET all departments
+//GET all departments
 db.query(`SELECT * FROM departments`, (err, rows) => {
-    console.log(rows);
-});*/
-db.query(`SELECT roles.*, departments.name
-AS title
-FROM roles
-LEFT JOIN departments 
-ON roles.department_id = departments.id`, (err, rows) => {
-   
+    //console.log(rows);
 });
 
+//ADD a department
+const sql = `INSERT INTO departments (name)
+            VALUES (?)`;
+const params = ['InfoTech'];
 
-/*//GET a single department
-db.query(`SELECT * FROM departments WHERE id = 1`, (err,row) => {
+db.query(sql, params, (err, result) => {
     if (err) {
         console.log(err);
     }
-    console.log(row);
-});*/
-db.query(`SELECT roles.*, departments.name
-AS department_name
-FROM roles
-LEFT JOIN departments
-ON roles.department_id = departments.id
-WHERE roles.id = 1`, (err, rows) => {
-    if (err) {
-        console.log(err);
-    }
-    console.log(rows);
+    //console.log(result);
 });
 
 /*//DELETE a department
@@ -52,14 +47,39 @@ db.query(`DELETE FROM departments WHERE id = ?`, 1, (err, result) => {
     console.log(result);
 });*/
 
-/*//ADD a department
-const sql = `INSERT INTO departments (name)
-            VALUES (?)`;
-const params = ['InfoTech'];
+//Get all roles
+db.query(`SELECT roles.*, departments.name
+AS name
+FROM roles
+JOIN departments 
+ON roles.department_id = departments.id`, (err, rows) => {
+    if (err) {
+        console.log(err);
+    }
+   console.log(rows);
+});
 
-db.query(sql, params, (err, result) => {
+//Add a role
+
+//Get all employees
+db.query(`SELECT employees.*, roles.title
+AS first_name
+FROM employees
+LEFT JOIN roles
+ON employees.role_id = roles.id`, (err, rows) =>{
+    //console.log(rows);
+});
+
+//Add an employee
+
+//Update an employee
+
+/*//DELETE a department
+db.query(`DELETE FROM departments WHERE id = ?`, 1, (err, result) => {
     if (err) {
         console.log(err);
     }
     console.log(result);
 });*/
+
+

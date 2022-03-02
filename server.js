@@ -91,6 +91,34 @@ function init() {inquirer
                 init();
                 break;
         };
+        switch (Start) {
+            case "add a role":
+                inquirer.prompt([
+                    {
+                        type: "name",
+                        name: "newRole",
+                        message: "What is the name of the role?"
+                    },
+                    {
+                        type: "input",
+                        name: "roleSalary",
+                        message: "What is the salary for this role?"
+                    },
+                    {
+                        type: "input",
+                        name: "roleDepartment",
+                        message: "What is the department id this role belongs to?"
+                    }
+                ]).then((answer) => { //console.log(answers);
+                    const sql = `INSERT INTO roles (title, salary, department_id)
+                            VALUES (?,?,?)`; 
+
+                            db.query(sql, [answer.newRole, answer.roleSalary, answer.roleDepartment], () => {
+                                console.log('Your new role has been added!')
+                            });
+                })
+                break;
+        };
     })
 };
 

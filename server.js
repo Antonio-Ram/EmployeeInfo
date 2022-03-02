@@ -33,7 +33,6 @@ inquirer.prompt(
 .then(({ start }) => {
     switch (start) {
         case "View all departments":
-            app.get('/api/departments', (req, res) => {
                 const sql = `SELECT * FROM departments`;
             
                 db.query(sql, (err, rows) => {
@@ -48,7 +47,6 @@ inquirer.prompt(
                         }
                     ])
                 });
-            });
             break;         
     };
 });
@@ -67,7 +65,7 @@ inquirer.prompt(
             data: rows
         });
     });
-});*/
+});
 
 // Add  a department
 app.post('/api/departments', ({ body }, res) => {
@@ -137,4 +135,4 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
+});*/

@@ -88,13 +88,12 @@ inquirer.prompt(
                         VALUES (?)`;
                         
 
-                        db.query(sql, [answer.name], `SELECT * FROM departments`, (res) => {
-                            //console.log(`Successs ${result} is now added to departments!`)
-                            console.table(res);
-                        
+                        db.query(sql, [answer.newDepartment], (result) => {
+                            console.log(`Successs ${answer.newDepartment} is now added to departments!`)
                         });
             
             });
+            break;
     };
 });
 

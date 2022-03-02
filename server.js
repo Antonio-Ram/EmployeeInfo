@@ -60,6 +60,7 @@ inquirer.prompt(
                 }
                 console.table(rows);
             });
+            break;
     };
     switch (Start) {
         case "view all employees":
@@ -72,6 +73,7 @@ inquirer.prompt(
                 }
                 console.table(rows);
             });
+            break;
     };
     switch (Start) {
         case "add a department":
@@ -81,25 +83,17 @@ inquirer.prompt(
                     name: "newDepartment",
                     message: "What is the name of the department?"
                 }
-            ).then(({ newDepartment }) =>{
-                switch(newDepartment){
-                    case '':
-                    const sql = `INSERT INTO departments (name)
+            ).then((answer) => { //console.log(answer);
+                const sql = `INSERT INTO departments (name)
                         VALUES (?)`;
-                        const params = [body.name];
+                        const params = answer;
 
-                    db.query(sql, params, (err, result) => {
-                            if(err) {
-                                res.status(400).json({ error: err.message });
-                                return;
-                            }
-                            res.json({
-                                message: 'success',
-                                data: body
-                            });
+                        db.query(sql, params, (err, result) => {
+                            console.log(`Successs ${result} is now added to departments!`)
+                            //console.table(rows);
                         
-                    });
-                }
+                        });
+            
             });
     };
 });

@@ -101,7 +101,7 @@ function init() {inquirer
                         name: "roleDepartment",
                         message: "What is the department id this role belongs to?"
                     }
-                ]).then((answer) => { //console.log(answers);
+                ]).then((answer) => { 
                     const added = `INSERT INTO roles (title, salary, department_id)
                             VALUES (?,?,?)`; 
 
@@ -134,14 +134,39 @@ function init() {inquirer
                         name: "manager",
                         message: "Who is the manager for this employee (insert manager id)?"
                     }
-                ]).then((answer) => { console.log(answer)
+                ]).then((answer) => { 
                     const adding = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
                     VALUES (?,?,?,?)`;
 
                     db.query(adding, [answer.firstName, answer.lastName, answer.roleId, answer.manager], (error) => {
                         console.log(error);
+                        console.log('Your new employee has been added!')
                     });
                 })
+                init();
+                break;
+            case "update an employee":
+                inquirer.prompt([
+                    {
+                        type: "input",
+                        name: "upEmp",
+                        message: "Who would you like to update?"
+                    },
+                    {
+                        type: "input",
+                        name: "upRole",
+                        message: "What is there new role ID?"
+                    }
+                ])
+                .then((answer) => { console.log(answer);
+                    const update = `UPDATE employees SET first_name = ?
+                    WHERE id= ?`;
+
+                    db.query(update, [answer.upEmp, answer.upRole], (error) => {
+                        console.log(error);
+                    })
+                })
+                break;
         };
     })
 };

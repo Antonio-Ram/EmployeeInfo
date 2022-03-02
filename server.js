@@ -37,17 +37,15 @@ function init() {inquirer
                         console.table(rows);
                     });
                 init();
-                break;         
-        };
-        switch (Start) {
+                break;     
             case "view all roles":
-                const sql = `SELECT roles.*, departments.name
+                const roles = `SELECT roles.*, departments.name
                 AS department_name
                 FROM departments
                 LEFT JOIN roles
                 ON roles.department_id = departments.id`;
 
-                db.query(sql, (err, rows) => {
+                db.query(roles, (err, rows) => {
                     if (err) {
                         res.status(500).json( {error: err.message });
                         return;  
@@ -55,13 +53,11 @@ function init() {inquirer
                     console.table(rows);
                 });
                 init();
-                break;
-        };
-        switch (Start) {
+                break;    
             case "view all employees":
-                const sql = `SELECT * FROM employees`
+                const emp = `SELECT * FROM employees`
 
-                db.query(sql, (err, rows) => {
+                db.query(emp, (err, rows) => {
                     if(err) {
                         res.status(500).json({ error: err.message });
                         return;
@@ -70,8 +66,6 @@ function init() {inquirer
                 });
                 init();
                 break;
-        };
-        switch (Start) {
             case "add a department":
                 inquirer.prompt(
                     {
@@ -80,18 +74,16 @@ function init() {inquirer
                         message: "What is the name of the department?"
                     }
                 ).then((answer) => { //console.log(answer);
-                    const sql = `INSERT INTO departments (name)
+                    const add = `INSERT INTO departments (name)
                             VALUES (?)`;                     
 
-                            db.query(sql, [answer.newDepartment], (result) => {
+                            db.query(add, [answer.newDepartment], (result) => {
                                 console.log(`Successs ${answer.newDepartment} is now added to departments!`)
                             });
                 
                 });
                 init();
                 break;
-        };
-        switch (Start) {
             case "add a role":
                 inquirer.prompt([
                     {
@@ -110,14 +102,46 @@ function init() {inquirer
                         message: "What is the department id this role belongs to?"
                     }
                 ]).then((answer) => { //console.log(answers);
-                    const sql = `INSERT INTO roles (title, salary, department_id)
+                    const added = `INSERT INTO roles (title, salary, department_id)
                             VALUES (?,?,?)`; 
 
-                            db.query(sql, [answer.newRole, answer.roleSalary, answer.roleDepartment], () => {
+                            db.query(added, [answer.newRole, answer.roleSalary, answer.roleDepartment], (error) => {
+                                console.log(error);
                                 console.log('Your new role has been added!')
                             });
                 })
+                init();
                 break;
+            case "add an employee":
+                inquirer.prompt([
+                    {
+                        type: "name",
+                        name: "firstName",
+                        message: "What is the first name of this employee?"
+                    },
+                    {
+                        type: "name",
+                        name: "lastName",
+                        message: "What is the last name of this employee?"
+                    },
+                    {
+                        type: "input",
+                        name: "roleId",
+                        message: "What is the role ID for this employee?"
+                    },
+                    {
+                        type: "input",
+                        name: "manager",
+                        message: "Who is the manager for this employee (insert manager id)?"
+                    }
+                ]).then((answer) => { console.log(answer)
+                    const adding = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+                    VALUES (?,?,?,?)`;
+
+                    db.query(adding, [answer.firstName, answer.lastName, answer.roleId, answer.manager], (error) => {
+                        console.log(error);
+                    });
+                })
         };
     })
 };

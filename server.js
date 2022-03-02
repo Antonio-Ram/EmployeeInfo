@@ -86,17 +86,18 @@ inquirer.prompt(
             ).then((answer) => { //console.log(answer);
                 const sql = `INSERT INTO departments (name)
                         VALUES (?)`;
-                        const params = answer;
+                        
 
-                        db.query(sql, params, (err, result) => {
-                            console.log(`Successs ${result} is now added to departments!`)
-                            //console.table(rows);
+                        db.query(sql, [answer.name], `SELECT * FROM departments`, (res) => {
+                            //console.log(`Successs ${result} is now added to departments!`)
+                            console.table(res);
                         
                         });
             
             });
     };
 });
+
 
 
 // View all departments

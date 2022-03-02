@@ -159,13 +159,13 @@ function init() {inquirer
                     }
                 ])
                 .then((answer) => { console.log(answer);
-                    const update = `UPDATE employees SET first_name = ?
-                    WHERE id= ?`;
+                    const update = `UPDATE employees SET role_id= ? where first_name = ?`;
 
-                    db.query(update, [answer.upEmp, answer.upRole], (error) => {
+                    db.query(update, [answer.upRole, answer.upEmp], (error) => {
                         console.log(error);
                     })
                 })
+                init();
                 break;
         };
     })

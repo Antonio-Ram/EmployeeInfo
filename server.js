@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const inputCheck = require('./utils/inputCheck');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -21,19 +22,39 @@ const db = mysql.createConnection(
     console.log('Connected to the tracker database.')
 );
 
-inquirer
-    .prompt([
-        {
-            type: "list",
-            name: "Start",
-            message: "What would you like to do?",
-            choices: ["View all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee"]
-        }
-    ]);
-;
+inquirer.prompt(
+    {
+        type: "list",
+        name: "Start",
+        message: "What would you like to do?",
+        choices: ["View all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee"]
+    }
+)
+.then(({ start }) => {
+    switch (start) {
+        case "View all departments":
+            app.get('/api/departments', (req, res) => {
+                const sql = `SELECT * FROM departments`;
+            
+                db.query(sql, (err, rows) => {
+                    if (err) {
+                        res.status(500).json( {error: err.message });
+                        return;
+                    }
+                    console.table([
+                        {
+                           id: departments.id,
+                           name: departments.name
+                        }
+                    ])
+                });
+            });
+            break;         
+    };
+});
 
 // View all departments
-app.get('/api/departments', (req, res) => {
+/*app.get('/api/departments', (req, res) => {
     const sql = `SELECT * FROM departments`;
 
     db.query(sql, (err, rows) => {
@@ -46,7 +67,7 @@ app.get('/api/departments', (req, res) => {
             data: rows
         });
     });
-});
+});*/
 
 // Add  a department
 app.post('/api/departments', ({ body }, res) => {

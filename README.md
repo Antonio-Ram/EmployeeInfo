@@ -16,6 +16,7 @@
 
   ##Usage
   All that is needed to use this project is the data to fill in the information! I have provided sample data in my seeds.sql file but feel free to remove that information and start fresh
+  https://drive.google.com/file/d/1yZGVofTCB1sX7bW6tsTf3xkl8aXUZVzy/view
 
 
   ##License
